@@ -1,10 +1,12 @@
 # cattrs-api
 
-A serialization/deserialization (serde) library for Starlette built on top of
-cattrs. Starlette is the underlying ASGI framework that powers the very popular
-library FastAPI. FastAPI provides a nice layer of serde on top of Starlette
-using Pydantic. cattrs-api is the same idea, but with cattrs instead of
-Pydantic.
+A serialization/deserialization (serde) library for
+[Starlette](https://www.starlette.io/) built on top of cattrs. Starlette is the
+underlying ASGI framework that powers the very popular library
+[FastAPI](https://fastapi.tiangolo.com/). FastAPI provides a nice layer of
+serde on top of Starlette using [Pydantic](https://docs.pydantic.dev/latest/).
+cattrs-api is the same idea, but with
+[cattrs](https://catt.rs/en/stable/index.html) instead of Pydantic.
 
 
 ## Usage
@@ -87,13 +89,13 @@ app = Starlette(routes=routes)
 ```
 
 ```bash
-➜  cattrs-api git:(main) ✗ uvicorn example:app &> /dev/null &
+$ uvicorn example:app &> /dev/null &
 [1] 123456
-➜  cattrs-api git:(main) ✗ export SERVER_PID=$!
-➜  cattrs-api git:(main) ✗ curl -X GET localhost:8000/params?names=steve,bob&id=2
+$ export SERVER_PID=$!
+$ curl -X GET localhost:8000/params?names=steve,bob&id=2
 Params: Parameters(names=['steve', 'bob'], id=2)%
-➜  cattrs-api git:(main) ✗ curl -X POST --json '{"names":["steve","bob"],"id":2}' localhost:8000/params
+$ curl -X POST --json '{"names":["steve","bob"],"id":2}' localhost:8000/params
 Params: Parameters(names=['steve', 'bob'], id=2)%
-➜  cattrs-api git:(main) ✗ kill $SERVER_PID
+$ kill $SERVER_PID
 [1]  + 123456 terminated  uvicorn example:app &> /dev/null
 ```
