@@ -1,0 +1,15 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cattrs-api"
+requires-python = ">= 3.12"
+version = "0.1"
+dependencies = [
+    "cattrs",
+    "starlette"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["cattrs_api"]
