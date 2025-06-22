@@ -69,17 +69,17 @@ class Parameters:
 
 # query_wrap parses the query parameters to structure the user class
 @query_wrap(converter)
-async def get_params(request: Request, params: Parameters) -> HTMLResponse:
+async def get_params(request: Request, params: Parameters) -> PlainTextResponse:
     return PlainTextResponse(f"Params: {params}")
 
 # body_wrap parses the body parameters to structure the user class. The body
 # must be JSON formatted.
 @body_wrap(converter)
-async def post_params(request: Request, params: Parameters) -> HTMLResponse:
+async def post_params(request: Request, params: Parameters) -> PlainTextResponse:
     return PlainTextResponse(f"Params: {params}")
 
 routes = [
-    Route("/params", params, methods=["GET"]),
+    Route("/params", get_params, methods=["GET"]),
     Route("/params", post_params, methods=["POST"]),
 ]
 
@@ -88,11 +88,12 @@ app = Starlette(routes=routes)
 
 ```bash
 ➜  cattrs-api git:(main) ✗ uvicorn example:app &> /dev/null &
-➜  cattrs-api git:(main) ✗ export SERVER_PID=$!
 [1] 123456
+➜  cattrs-api git:(main) ✗ export SERVER_PID=$!
 ➜  cattrs-api git:(main) ✗ curl -X GET localhost:8000/params?names=steve,bob&id=2
 Params: Parameters(names=['steve', 'bob'], id=2)%
 ➜  cattrs-api git:(main) ✗ curl -X POST --json '{"names":["steve","bob"],"id":2}' localhost:8000/params
 Params: Parameters(names=['steve', 'bob'], id=2)%
 ➜  cattrs-api git:(main) ✗ kill $SERVER_PID
+[1]  + 123456 terminated  uvicorn example:app &> /dev/null
 ```
